@@ -1,0 +1,40 @@
+pipeline{
+    agent any
+    stages
+    {
+        stage("Build")
+        {
+            steps
+            {
+                echo Building...
+            }    
+            post{
+                always
+                {
+                    mail to:"karthiksajeev321@gmail.com",
+                    subject:"COnfirmation Mail",
+                    body: "Build log attached"
+                }
+            }
+        }
+
+        stage("Test")
+         {
+            steps
+            {
+                echo Testing...
+            }
+         }
+
+        stage("Deploy")  
+        {
+            steps
+            {
+                echo Deploying...
+            }
+        }
+   
+
+    }
+
+}
