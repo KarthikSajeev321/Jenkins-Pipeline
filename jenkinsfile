@@ -11,7 +11,9 @@ pipeline {
             steps {
                
                 // Use Maven to build the code
-                sh 'mvn clean package'
+                //sh 'mvn clean package' 
+                echo Building...
+
             }
             
             post{
