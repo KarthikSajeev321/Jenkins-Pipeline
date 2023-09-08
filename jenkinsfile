@@ -1,13 +1,17 @@
-pipeline{
+
+pipeline {
     agent any
-    stages
-    {
-        stage("Build")
-        {
-            steps
-            {
-                echo Building...
-            }    
+    environment {
+        DIRECTORY_PATH = '/path/to/code'
+        TESTING_ENVIRONMENT = 'Staging Environment'
+        PRODUCTION_ENVIRONMENT = 'Karthik Sajeev'
+    }
+    stages {
+        stage('Build') {
+            steps {
+               echo  "fetch the source code from $DIRECTORY_PATH"
+               echo "compile the code and generate any necessary artifacts"
+            }
             post{
                 always
                 {
@@ -17,24 +21,31 @@ pipeline{
                 }
             }
         }
-
-        stage("Test")
-         {
-            steps
-            {
-                echo Testing...
-            }
-         }
-
-        stage("Deploy")  
-        {
-            steps
-            {
-                echo Deploying...
+        stage('Test') {
+            steps {
+                echo "Unit tests completed "
+                echo "Integration tests Completed"
             }
         }
-   
-
+        stage('Code Quality Check') {
+            steps {
+                 echo "Check the quality of the code"
+            }
+        }
+        stage('Deploy') {
+            steps {
+            echo "Deploy the application to a testing environment: $TESTING_ENVIRONMENT"
+            }
+        }
+        stage('Approval') {
+            steps {
+                    sleep 10
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+               echo "Code deployed to the production environment $PRODUCTION_ENVIRONMENT"
+            }
+        }
     }
-
 }
