@@ -1,87 +1,40 @@
- pipeline {
+pipeline{
     agent any
-    
-    stages {
-        stage('Build') {
-            steps {
-                echo "Building the code using automation tool MAVEN"
+    stages
+    {
+        stage("Build")
+        {
+            steps
+            {
+                echo Building...
+            }    
+            post{
+                always
+                {
+                    mail to:"karthiksajeev321@gmail.com",
+                    subject:"Confirmation Mail",
+                    body: "Build log attached"
+                }
             }
         }
-        
-        stage('Unit and Integration Tests') {
-            steps {
-                echo"Unit tests and Integration tests are done using SELENIUM"
-            }
-            post {
-                success{
-                 
-                           mail to: "karthiksajeev321@gmail.com",
-                            subject: "Status of Build",
-                            body: "Unit and Integration Test was successful",
-                            attachLog: true
-                            
-                         }
-                failure{
-                  
-                           mail to: "karthiksajeev321@gmail.com",
-                            subject: "Status of Build",
-                            body: "Unit and Integration Failed",
-                            attachLog: true 
-                          
 
-                        }
+        stage("Test")
+         {
+            steps
+            {
+                echo Testing...
+            }
+         }
+
+        stage("Deploy")  
+        {
+            steps
+            {
+                echo Deploying...
             }
         }
-        
-        stage('Code Analysis') {
-            steps {
-                echo"To check if the code meets the industry standards, SonarQube is used"
-            }
-        }
-        
-        stage('Security Scan') {
-            steps {
-                echo "OpenVAS is used to do the security scan"
-            }
-           post {
-                success{
-                   
-                            mail to: "karthiksajeev321@gmail.com",
-                            subject: "Status of Build",
-                            body: "Security scan was successful",
-                            attachLog: true
-                            
-        
-                        }
-                failure{
-                
-                            mail to: "karthiksajeev321@gmail.com",
-                            subject: "Status of Build",
-                            body: "Security scan Failed",
-                            attachLog: true
-                            
-        
-                        }
-            }
-        }
-        
-        stage('Deploy to Staging') {
-            steps {
-                echo"Deploying the application using AWS EC2 Instance"
-            }
-        }
-        
-        stage('Integration Tests on Staging') {
-            steps {
-                echo"Running integration tests on the application to check the behaviour"
-            }
-        }
-        
-        stage('Deploy to Production') {
-            steps {
-               echo "Deploying the application to AWS EC2 instance"
-            }
-        }
+   
+
     }
-    
+
 }
