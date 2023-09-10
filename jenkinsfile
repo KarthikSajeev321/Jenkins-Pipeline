@@ -1,52 +1,89 @@
 
-pipeline {
+                
+      pipeline {
     agent any
-    environment {
-        DIRECTORY_PATH = '/path/to/code'
-        TESTING_ENVIRONMENT = 'Staging Environment'
-        PRODUCTION_ENVIRONMENT = 'Karthik Sajeev'
-    }
+    
     stages {
         stage('Build') {
             steps {
-              echo Building...
+                echo "Building the code using automation tool MAVEN"
+            }
+        }
+        
+        stage('Unit and Integration Tests') {
+            steps {
+                echo"Unit tests and Integration tests are done using SELENIUM"
+            }
+            post {
+                success{
+                   emailext (
+                            to: "karthiksajeev321@gmail.com",
+                            subject: "Status of Build",
+                            body: "Unit and Integration Test was successful",
+                            attachLog: true
+                            )
+                         }
+                failure{
+                   emailext (
+                            to: "karthiksajeev321@gmail.com",
+                            subject: "Status of Build",
+                            body: "Unit and Integration Failed",
+                            attachLog: true 
+                            )
 
-            }
-            
-            post{
-                always
-                {
-                    mail to:"karthiksajeev321@gmail.com",
-                    subject:"COnfirmation Mail",
-                    body: "Build log attached"
-                }
+                        }
             }
         }
-        stage('Test') {
+        
+        stage('Code Analysis') {
             steps {
-                echo "Unit tests completed "
-                echo "Integration tests Completed"
+                echo"To check if the code meets the industry standards, SonarQube is used"
             }
         }
-        stage('Code Quality Check') {
+        
+        stage('Security Scan') {
             steps {
-                 echo "Check the quality of the code"
+                echo "OpenVAS is used to do the security scan"
+            }
+           post {
+                success{
+                   emailext (
+                            to: "karthiksajeev321@gmail.com",
+                            subject: "Status of Build",
+                            body: "Security scan was successful",
+                            attachLog: true
+                            )
+        
+                        }
+                failure{
+                   emailext(
+                            to: "karthiksajeev321@gmail.com",
+                            subject: "Status of Build",
+                            body: "Security scan Failed",
+                            attachLog: true
+                            )
+        
+                        }
             }
         }
-        stage('Deploy') {
+        
+        stage('Deploy to Staging') {
             steps {
-            echo "Deploy the application to a testing environment: $TESTING_ENVIRONMENT"
+                echo"Deploying the application using AWS EC2 Instance"
             }
         }
-        stage('Approval') {
+        
+        stage('Integration Tests on Staging') {
             steps {
-                    sleep 10
+                echo"Running integration tests on the application to check the behaviour"
             }
         }
+        
         stage('Deploy to Production') {
             steps {
-               echo "Code deployed to the production environment $PRODUCTION_ENVIRONMENT"
+               echo "Deploying the application to AWS EC2 instance"
             }
         }
     }
+    
 }
