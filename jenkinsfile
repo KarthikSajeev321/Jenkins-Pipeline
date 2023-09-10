@@ -16,20 +16,20 @@
             }
             post {
                 success{
-                   emailext (
-                            to: "karthiksajeev321@gmail.com",
+                 
+                           mail to: "karthiksajeev321@gmail.com",
                             subject: "Status of Build",
                             body: "Unit and Integration Test was successful",
                             attachLog: true
-                            )
+                            
                          }
                 failure{
-                   emailext (
-                            to: "karthiksajeev321@gmail.com",
+                  
+                           mail to: "karthiksajeev321@gmail.com",
                             subject: "Status of Build",
                             body: "Unit and Integration Failed",
                             attachLog: true 
-                            )
+                          
 
                         }
             }
@@ -47,21 +47,21 @@
             }
            post {
                 success{
-                   emailext (
-                            to: "karthiksajeev321@gmail.com",
+                   
+                            mail to: "karthiksajeev321@gmail.com",
                             subject: "Status of Build",
                             body: "Security scan was successful",
                             attachLog: true
-                            )
+                            
         
                         }
                 failure{
-                   emailext(
-                            to: "karthiksajeev321@gmail.com",
+                
+                            mail to: "karthiksajeev321@gmail.com",
                             subject: "Status of Build",
                             body: "Security scan Failed",
                             attachLog: true
-                            )
+                            
         
                         }
             }
