@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Building the code using automation tool MAVEN"
+                echo "Building automation done using MAVEN"
             }
         }
         
         stage('Unit and Integration Tests') {
             steps {
-                echo"Unit tests and Integration tests are done using SELENIUM"
+                echo "Unit tests and Integration tests are done using SELENIUM"
             }
             post {
                 success{
